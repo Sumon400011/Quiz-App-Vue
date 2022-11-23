@@ -6,7 +6,9 @@
   const search = ref("");
 
   watch(search, () => {
-    console.log("chenging")
+    quizes.value = data.filter((check) => {
+      return check.name.toLowerCase().includes(search.value);
+    });
   });
 </script>
 <template>
