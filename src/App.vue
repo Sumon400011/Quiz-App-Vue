@@ -1,15 +1,26 @@
+<script setup>
+  import data from "./data/quizes.json";
+  import { ref, watch } from "vue";
+
+  const quizes = ref(data);
+  const search = ref("");
+
+  watch(search, () => {
+    console.log("chenging")
+  });
+</script>
 <template>
   <div class="container">
     <header>
       <h1>Quizes</h1>
-      <input type="text" placeholder="Search...">
+      <input type="text" v-model.trim="search" placeholder="Search...">
     </header>
     <div class="options-container">
-      <div class="card">
-        <img src="https://i.ytimg.com/vi/Kp2bYWRQylk/maxresdefault.jpg" alt="">
-        <div class="card-text">
-          <h2>Math</h2>
-          <p>15 questions</p>
+      <div v-for="quiz in quizes" :key="quiz.id" class="card">
+        <img :src="quiz.img" :alt="quiz.name">
+        <div class="card-text" style="padding:10px 15px;">
+          <h2>{{ quiz.name }}</h2>
+          <p>{{ quiz.questions.length }} questions</p>
         </div>
       </div>
     </div>
