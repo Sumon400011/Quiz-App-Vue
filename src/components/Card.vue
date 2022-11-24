@@ -8,6 +8,7 @@
     </div>
 </template>
 <script setup>
+    // `defineProps` is a compiler macro and no longer needs to be imported.
     import { defineProps } from 'vue';
 
     //distructuring the quiz
