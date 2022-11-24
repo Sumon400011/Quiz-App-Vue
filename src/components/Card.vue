@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card" @click="navigateToQuiz">
         <img :src="quiz.img" :alt="quiz.name">
         <div class="card-text" style="padding:10px 15px;">
             <h2>{{ quiz.name }}</h2>
@@ -11,8 +11,19 @@
     // `defineProps` is a compiler macro and no longer needs to be imported.
     import { defineProps } from 'vue';
 
+    // import useRouter for programmatically use router
+    import { useRouter } from 'vue-router';
+
+    const router = useRouter();
+
+    // function for card to navigate quiz
+    const navigateToQuiz = () => {
+      router.push(`/quiz/${quiz.id}`)
+    }
+    
     //distructuring the quiz
     const { quiz } = defineProps(["quiz"]);
+
 </script>
 
 <style scoped>
