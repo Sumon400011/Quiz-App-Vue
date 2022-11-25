@@ -3,18 +3,23 @@
     <QuizHeader :questionStatus="questionStatus" :barPercentage="barPercentage" />
     <div>
       <Question 
+        v-if="!showResults"
         :question="quiz.questions[currentQuestionIndex]"
         @selectOption="onOptionSelected"
       />
-      <!-- <Result /> -->
-      <button @click="currentQuestionIndex++">Next Question</button>
+      <Result 
+        v-else
+        :quizQuestionLength="quiz.questions.length"
+        :numberOfCorrectAnswers="numberOfCorrectAnswers"
+      />
+      <!-- <button @click="currentQuestionIndex++">Next Question</button> -->
     </div>
   </div>
 </template>
 <script setup>
   import Question from "../components/Question.vue"
   import QuizHeader from "../components/QuizHeader.vue"
-  // import Result from "../components/Result.vue"
+  import Result from "../components/Result.vue"
   import quizes from "../data/quizes.json";
   import { useRoute } from 'vue-router';
   import { ref, computed } from "vue";
@@ -26,12 +31,16 @@
   
   const currentQuestionIndex = ref(0);
   const numberOfCorrectAnswers = ref(0);
+  const showResults = ref(false);
   // const questionStatus = `${currentQuestionIndex.value}/${quiz.questions.length}`;
 
   // Functions
   const onOptionSelected = (isCorrect) => {
     if(isCorrect){
       numberOfCorrectAnswers.value++;
+    }
+    if(quiz.questions.length - 1 === currentQuestionIndex.value){
+      showResults.value = true;
     }
     currentQuestionIndex.value++
   }
