@@ -16,7 +16,6 @@
 <script setup>
     // import { defineProps } from 'vue';
     const { question } = defineProps(["question"]);
-    console.log(question);
 </script>
 
 <style scoped>

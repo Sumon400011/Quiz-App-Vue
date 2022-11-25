@@ -1,6 +1,6 @@
 <template>
   <div>
-    <QuizHeader />
+    <QuizHeader :questionStatus="questionStatus" />
     <div>
       <Question :question="quiz.questions[currentQuestionIndex]"/>
       <!-- <Result /> -->
@@ -20,4 +20,5 @@
   const quiz = quizes.find(item => item.id === quizId);
   
   const currentQuestionIndex = ref(0);
+  const questionStatus = `${currentQuestionIndex.value}/${quiz.questions.length}`;
 </script>
