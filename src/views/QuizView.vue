@@ -1,9 +1,10 @@
 <template>
   <div>
-    <QuizHeader :questionStatus="questionStatus" />
+    <QuizHeader :questionStatus="questionStatus" :barPercentage="barPercentage" />
     <div>
       <Question :question="quiz.questions[currentQuestionIndex]"/>
       <!-- <Result /> -->
+      <button @click="currentQuestionIndex++">Next Question</button>
     </div>
   </div>
 </template>
@@ -13,12 +14,15 @@
   // import Result from "../components/Result.vue"
   import quizes from "../data/quizes.json";
   import { useRoute } from 'vue-router';
-  import { ref } from "vue";
+  import { ref, computed } from "vue";
   
   const route = useRoute();
   const quizId = parseInt(route.params.id)
   const quiz = quizes.find(item => item.id === quizId);
   
   const currentQuestionIndex = ref(0);
-  const questionStatus = `${currentQuestionIndex.value}/${quiz.questions.length}`;
+  // const questionStatus = `${currentQuestionIndex.value}/${quiz.questions.length}`;
+
+  const questionStatus = computed(()=> `${currentQuestionIndex.value}/${quiz.questions.length}`)
+  const barPercentage = computed(()=> `${currentQuestionIndex.value / quiz.questions.length * 100}%`)
 </script>
