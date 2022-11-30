@@ -2,9 +2,28 @@
   import data from "../data/quizes.json";
   import { ref, watch } from "vue";
   import Card from "../components/Card.vue"
+  import gsap from "gsap";
 
   const quizes = ref(data);
   const search = ref("");
+
+  const beforeEnter = (el) => {
+    // card-enter-from
+    el.style.opacity = 0;
+    el.style.transform = "translateY(-60px)"
+  }
+  const onEnter = (el) => {
+    // card-enter-to
+    gsap.to(el, {
+      y: 0,
+      opacity: 1,
+      duration: 0.5,
+      delay: el.dataset.index * 0.3
+    })
+  }
+  const afterEnter = (el) => {
+    // card-enter-active
+  }
 
   watch(search, () => {
     quizes.value = data.filter((check) => {
@@ -20,7 +39,20 @@
     </header>
     <!-- v-for="quiz in quizes" :key="quiz.id" -->
     <div class="options-container">
-      <Card v-for="quiz in quizes" :key="quiz.id" :quiz="quiz" />
+      <TransitionGroup
+        name="card"
+        appear
+        @before-enter="beforeEnter"
+        @enter="onEnter"
+        @after-enter="afterEnter"
+      >
+        <Card 
+          v-for="(quiz, index) in quizes"
+          :key="quiz.id"
+          :quiz="quiz"
+          :data-index="index"
+        />
+      </TransitionGroup>
     </div>
   </div>
 </template>
@@ -55,4 +87,16 @@
     flex-wrap: wrap;
     margin-top: 40px;
   }
+
+  /* .card-enter-from{
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  .card-enter-to{
+    transform: translateY(-0);
+    opacity: 1;
+  }
+  .card-enter-active{
+    transition: all 0.5s ease;
+  } */
 </style>
